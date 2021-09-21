@@ -1,10 +1,27 @@
+require('dotenv').config();
 const express = require('express');
 const { graphqlHTTP } = require('express-graphql');
+const passport = require('passport');
 const resolver = require('./graphql/resolver');
 const schema = require('./graphql/schema');
 const knex = require('./knex');
+const { authGoogle } = require('./passport/passportService');
 
 const app = express();
+
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
+
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', {
+    session: false,
+    failureRedirect: 'http://localhost:3000/signin',
+  }),
+  authGoogle
+);
 
 app.use(
   '/graphql',
