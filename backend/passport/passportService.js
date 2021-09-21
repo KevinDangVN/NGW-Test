@@ -36,7 +36,7 @@ const googleStrategy = new GoogleStrategy(
     try {
       if (profile) {
         console.log(profile);
-        done(null, { profile, accessToken });
+        done(null, profile);
       }
     } catch (err) {
       done(err, false);
