@@ -2,19 +2,7 @@
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const knex = require('../knex');
-
-const auth = (req) =>
-  new Promise((resolve, reject) => {
-    return passport.authenticate(
-      'jwt',
-      { session: false },
-      (err, payload, info) => {
-        if (err) reject(info);
-        if (payload) resolve(payload);
-        else reject(info);
-      }
-    )(req);
-  });
+const { authLocal } = require('../passport/passportService');
 
 const resolver = {
   login: async ({ username, password }, context) => {
@@ -56,7 +44,7 @@ const resolver = {
 
   test: async (root, context) => {
     try {
-      await auth(context.req);
+      await authLocal(context.req);
 
       console.log('Auth!');
       return 'Auth!';
