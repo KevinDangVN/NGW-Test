@@ -5,7 +5,7 @@ const passport = require('passport');
 const resolver = require('./graphql/resolver');
 const schema = require('./graphql/schema');
 const knex = require('./knex');
-const { authGoogle } = require('./passport/passportService');
+const { authGoogle, authFacebook } = require('./passport/passportService');
 
 const app = express();
 
@@ -21,6 +21,17 @@ app.get(
     failureRedirect: 'http://localhost:3000/signin',
   }),
   authGoogle
+);
+
+app.get('/auth/facebook', passport.authenticate('facebook'));
+
+app.get(
+  '/auth/facebook/callback',
+  passport.authenticate('facebook', {
+    session: false,
+    failureRedirect: 'http://localhost:3000/signin',
+  }),
+  authFacebook
 );
 
 app.use(

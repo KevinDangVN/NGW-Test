@@ -1,6 +1,7 @@
 const passport = require('passport');
 const passportJWT = require('passport-jwt');
 const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
+const { Strategy: FaceBookStrategy } = require('passport-facebook');
 const jwt = require('jsonwebtoken');
 
 const getUser = () => {
@@ -44,6 +45,29 @@ const googleStrategy = new GoogleStrategy(
   }
 );
 
+const facebookStrategy = new FaceBookStrategy(
+  {
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: 'http://localhost:4000/auth/facebook/callback',
+    profileFields: ['id', 'displayName', 'name', 'email'],
+    passReqToCallback: true,
+  },
+  (req, accessToken, refreshToken, profile, done) => {
+    try {
+      if (profile) {
+        console.log('Receive from FB -------- ');
+        console.log(accessToken);
+        console.log(refreshToken);
+        console.log(profile);
+        done(null, { accessToken, refreshToken, profile });
+      }
+    } catch (error) {
+      done(error, false);
+    }
+  }
+);
+
 // Authenticate via Passport
 const authLocal = (req) =>
   new Promise((resolve, reject) => {
@@ -73,8 +97,24 @@ const authGoogle = async (req, res) => {
   res.redirect(`http://localhost:3000/verify?token=${signedJWT}`);
 };
 
+const authFacebook = async (req, res) => {
+  const { id, displayName } = req.user;
+  console.log('auth facebook ------- ', req.user);
+  const signedJWT = jwt.sign(
+    {
+      username: 'user01-payload',
+    },
+    'wowwow',
+    {
+      expiresIn: '1h',
+    }
+  );
+  res.redirect(`http://localhost:3000/verify?token=${signedJWT}`);
+};
+
 // Passport use these strategies
 passport.use(localStrategy);
 passport.use(googleStrategy);
+passport.use(facebookStrategy);
 
-module.exports = { authLocal, authGoogle };
+module.exports = { authLocal, authGoogle, authFacebook };
