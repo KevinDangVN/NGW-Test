@@ -15,6 +15,14 @@ const Signin = () => {
         >
           Sign in with google
         </a>
+        <a
+          className="App-link"
+          href="http://localhost:4000/auth/facebook"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          Sign in with facebook
+        </a>
       </header>
     </div>
   );
