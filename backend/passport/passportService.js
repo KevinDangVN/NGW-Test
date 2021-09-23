@@ -38,7 +38,7 @@ const facebookStrategy = new FaceBookStrategy(
         console.log(accessToken);
         console.log(refreshToken);
         console.log(profile);
-        done(null, { accessToken, refreshToken, profile });
+        done(null, profile);
       }
     } catch (error) {
       done(error, false);
@@ -50,14 +50,14 @@ const facebookStrategy = new FaceBookStrategy(
 const authGoogle = async (req, res) => {
   const { id, displayName } = req.user;
   console.log('auth google ', req.user.accessToken);
-  const signedJWT = signToken('test-data');
+  const signedJWT = await signToken('test-data');
   return res.redirect(`http://localhost:3000/verify?token=${signedJWT}`);
 };
 
 const authFacebook = async (req, res) => {
   const { id, displayName } = req.user;
   console.log('auth facebook ------- ', req.user);
-  const signedJWT = signToken('test-data');
+  const signedJWT = await signToken('test-data');
   return res.redirect(`http://localhost:3000/verify?token=${signedJWT}`);
 };
 

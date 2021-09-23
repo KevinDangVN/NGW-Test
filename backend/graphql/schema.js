@@ -1,6 +1,6 @@
 // Construct a schema, using GraphQL schema language
 const { buildSchema } = require('graphql');
-var schema = buildSchema(`
+const schema = buildSchema(`
   type AuthData {
     success: String,
     username: String

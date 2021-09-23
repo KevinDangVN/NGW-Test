@@ -1,6 +1,5 @@
 // The root provides a resolver function for each API endpoint
 const jwt = require('jsonwebtoken');
-const passport = require('passport');
 const knex = require('../knex');
 const { authLocal } = require('../tokenService/tokenService');
 
