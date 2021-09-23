@@ -2,7 +2,7 @@
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const knex = require('../knex');
-const { authLocal } = require('../passport/passportService');
+const { authLocal } = require('../tokenService/tokenService');
 
 const resolver = {
   login: async ({ username, password }, context) => {
@@ -38,7 +38,6 @@ const resolver = {
       username: root.userInput.username,
       password: root.userInput.password,
     });
-    console.log(value);
     return { success: 'String', username: 'String' };
   },
 

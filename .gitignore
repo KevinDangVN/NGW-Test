@@ -1,2 +1,4 @@
 node_modules
 backend/.env
+backend/tokenService/ed25519-pub.pem
+backend/tokenService/ed25519-priv.pem

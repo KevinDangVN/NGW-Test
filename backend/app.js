@@ -6,12 +6,7 @@ const resolver = require('./graphql/resolver');
 const schema = require('./graphql/schema');
 const knex = require('./knex');
 const { authGoogle, authFacebook } = require('./passport/passportService');
-const {
-  readTokenKeyPair,
-  generateTokenKeyPair,
-  signToken,
-  verifyToken,
-} = require('./tokenService/tokenService');
+const { signToken } = require('./tokenService/tokenService');
 
 const app = express();
 
@@ -51,13 +46,10 @@ app.use(
     },
   }))
 );
-const testToken =
-  'eyJhbGciOiJFZERTQSJ9.eyJkYXRhIjoiZGF0YSAtLS0gdGV4dCIsImlhdCI6MTYzMjM3MDIzMSwiaXNzIjoiaXNzdWVyIiwiYXVkIjoiYXVkaWVuY2UiLCJleHAiOjE2MzI0NTY2MzF9.i5lkllfZv4TRrwCozggaERIFSPHfAcE_scuRXaW_oLUTRjLBity96qzcucYmv9PYe0ilkp9dd6Mu32E3rh3RDA';
 
 app.listen(4000, async () => {
   // await generateTokenKeyPair();
   await signToken('data --- text');
-  await verifyToken(testToken);
   knex('user')
     .select()
     .then((user) => console.log(user));
