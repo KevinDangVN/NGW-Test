@@ -2,7 +2,7 @@
 const { buildSchema } = require('graphql');
 const schema = buildSchema(`
   type AuthData {
-    success: String,
+    success: Boolean,
     username: String
   }
 

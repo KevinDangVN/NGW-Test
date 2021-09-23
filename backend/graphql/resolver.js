@@ -14,7 +14,7 @@ const resolver = {
     console.log(value);
     if (username === 'user01' && password === 'abc') {
       return {
-        success: 'true',
+        success: true,
         username: jwt.sign(
           {
             username: 'user01-payload',
@@ -27,7 +27,7 @@ const resolver = {
       };
     }
     return {
-      success: 'false',
+      success: false,
       username: username,
     };
   },
@@ -37,7 +37,7 @@ const resolver = {
       username: root.userInput.username,
       password: root.userInput.password,
     });
-    return { success: 'String', username: 'String' };
+    return { success: true, username: 'String' };
   },
 
   test: async (root, context) => {
