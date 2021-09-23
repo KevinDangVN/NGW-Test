@@ -3,10 +3,13 @@ const passportJWT = require('passport-jwt');
 const { Strategy: GoogleStrategy } = require('passport-google-oauth20');
 const { Strategy: FaceBookStrategy } = require('passport-facebook');
 const jwt = require('jsonwebtoken');
+const { readTokenKeyPair } = require('../tokenService/tokenService');
 
 const getUser = () => {
   return true;
 };
+
+const { privateKey, publicKey } = readTokenKeyPair();
 
 const ExtractJwt = passportJWT.ExtractJwt;
 const JwtStrategy = passportJWT.Strategy;
@@ -15,16 +18,25 @@ jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = 'wowwow';
 
 // Passport Strategy
-const localStrategy = new JwtStrategy(jwtOptions, function (jwt_payload, next) {
-  console.log('payload received', jwt_payload);
-  let user = getUser({ id: jwt_payload.id });
+const localStrategy = new JwtStrategy(
+  {
+    algorithms: 'ES256',
+    jwtFromRequest: passportJWT.ExtractJwt.fromAuthHeaderAsBearerToken(),
+    secretOrKey: publicKey,
+    // audience: 'audience',
+    // issuer: 'issuer',
+  },
+  function (jwt_payload, next) {
+    console.log('payload received', jwt_payload);
+    let user = getUser({ id: jwt_payload.id });
 
-  if (user) {
-    next(null, user);
-  } else {
-    next(null, false);
+    if (user) {
+      next(null, user);
+    } else {
+      next(null, false);
+    }
   }
-});
+);
 
 const googleStrategy = new GoogleStrategy(
   {
@@ -75,6 +87,8 @@ const authLocal = (req) =>
       'jwt',
       { session: false },
       (err, payload, info) => {
+        console.log(err);
+        console.log(info);
         if (err) reject(info);
         if (payload) resolve(payload);
         else reject(info);
