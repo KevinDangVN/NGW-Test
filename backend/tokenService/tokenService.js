@@ -12,7 +12,6 @@ const signToken = async (data) => {
     .setAudience('audience')
     .setExpirationTime('1d')
     .sign(privateKey);
-  console.log(jwt);
   return jwt;
 };
 
@@ -26,7 +25,7 @@ const getTokenFromHeaderRequest = (req) => {
   return undefined;
 };
 
-const authLocal = async (req) => {
+const verifyToken = async (req) => {
   try {
     const token = getTokenFromHeaderRequest(req);
     const { payload } = await jwtVerify(token, publicKey, {
@@ -42,5 +41,5 @@ const authLocal = async (req) => {
 
 module.exports = {
   signToken,
-  authLocal,
+  verifyToken,
 };

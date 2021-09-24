@@ -49,7 +49,6 @@ app.use(
 
 app.listen(4000, async () => {
   // await generateTokenKeyPair();
-  await signToken('data --- text');
   knex('user')
     .select()
     .then((user) => console.log(user));
