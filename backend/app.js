@@ -5,8 +5,10 @@ const passport = require('passport');
 const resolver = require('./graphql/resolver');
 const schema = require('./graphql/schema');
 const knex = require('./knex');
-const { authGoogle, authFacebook } = require('./passport/passportService');
-const { signToken } = require('./tokenService/tokenService');
+const {
+  authGoogleCallback,
+  authFacebookCallback,
+} = require('./passport/passportService');
 
 const app = express();
 
@@ -21,7 +23,7 @@ app.get(
     session: false,
     failureRedirect: 'http://localhost:3000/signin',
   }),
-  authGoogle
+  authGoogleCallback
 );
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
@@ -32,7 +34,7 @@ app.get(
     session: false,
     failureRedirect: 'http://localhost:3000/signin',
   }),
-  authFacebook
+  authFacebookCallback
 );
 
 app.use(

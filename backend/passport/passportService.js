@@ -47,14 +47,14 @@ const facebookStrategy = new FaceBookStrategy(
 );
 
 // Authenticate via Passport
-const authGoogle = async (req, res) => {
+const authGoogleCallback = async (req, res) => {
   const { id, displayName } = req.user;
   console.log('auth google ', req.user.accessToken);
   const signedJWT = await signToken('test-data');
   return res.redirect(`http://localhost:3000/verify?token=${signedJWT}`);
 };
 
-const authFacebook = async (req, res) => {
+const authFacebookCallback = async (req, res) => {
   const { id, displayName } = req.user;
   console.log('auth facebook ------- ', req.user);
   const signedJWT = await signToken('test-data');
@@ -65,4 +65,4 @@ const authFacebook = async (req, res) => {
 passport.use(googleStrategy);
 passport.use(facebookStrategy);
 
-module.exports = { authGoogle, authFacebook };
+module.exports = { authGoogleCallback, authFacebookCallback };
