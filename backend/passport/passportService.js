@@ -50,15 +50,15 @@ const facebookStrategy = new FaceBookStrategy(
 const authGoogleCallback = async (req, res) => {
   const { id, displayName } = req.user;
   console.log('auth google ', req.user.accessToken);
-  const signedJWT = await signToken('test-data');
-  return res.redirect(`http://localhost:3000/verify?token=${signedJWT}`);
+  const signedToken = await signToken('test-data');
+  return res.redirect(`http://localhost:3000/verify?token=${signedToken}`);
 };
 
 const authFacebookCallback = async (req, res) => {
   const { id, displayName } = req.user;
   console.log('auth facebook ------- ', req.user);
-  const signedJWT = await signToken('test-data');
-  return res.redirect(`http://localhost:3000/verify?token=${signedJWT}`);
+  const signedToken = await signToken('test-data');
+  return res.redirect(`http://localhost:3000/verify?token=${signedToken}`);
 };
 
 // Passport use these strategies
