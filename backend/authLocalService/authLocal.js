@@ -21,6 +21,11 @@ const generatePassword = async (password) => {
 };
 
 const verifyPassword = async (hashedPassword, inputPassword) => {
+  // Prevent Denial of Service in the future
+  if (password.length > 64) {
+    throw new Error('Password is too long');
+  }
+
   try {
     if (await argon2.verify(hashedPassword, inputPassword)) {
       return true;
