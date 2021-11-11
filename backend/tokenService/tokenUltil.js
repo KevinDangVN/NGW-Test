@@ -7,7 +7,10 @@ const generateTokenKeyPair = async () => {
     crv: 'Ed25519',
   });
 
-  if (publicKey instanceof KeyObject && privateKey instanceof KeyObject) {
+  if (
+    publicKey instanceof crypto.KeyObject &&
+    privateKey instanceof crypto.KeyObject
+  ) {
     const pubKey = publicKey.export({
       format: 'pem',
       type: 'spki',

@@ -7,13 +7,14 @@ const generatePassword = async (password) => {
   }
 
   try {
-    const hash = await argon2.hash(password, {
+    const resultString = await argon2.hash(password, {
       type: argon2.argon2id,
       memoryCost: 2 ** 16, // 64 MB,
       parallelism: 1,
-      timeCost: 2,
+      timeCost: 3,
+      hashLength: 100,
     });
-    return hash;
+    return resultString;
   } catch (error) {
     console.log(error);
     throw new Error('Failed to hash password');

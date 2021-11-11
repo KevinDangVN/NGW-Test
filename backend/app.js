@@ -9,6 +9,7 @@ const {
   authGoogleCallback,
   authFacebookCallback,
 } = require('./passport/passportService');
+const { generateTokenKeyPair } = require('./tokenService/tokenUltil');
 
 const app = express();
 
@@ -16,7 +17,6 @@ app.get(
   '/auth/google',
   passport.authenticate('google', { scope: ['profile', 'email'] })
 );
-
 app.get(
   '/auth/google/callback',
   passport.authenticate('google', {
@@ -27,7 +27,6 @@ app.get(
 );
 
 app.get('/auth/facebook', passport.authenticate('facebook'));
-
 app.get(
   '/auth/facebook/callback',
   passport.authenticate('facebook', {
